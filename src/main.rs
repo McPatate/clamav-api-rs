@@ -18,13 +18,20 @@ use tower_http::{
 use tracing::{info, Level};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
+#[derive(Deserialize, Serialize)]
+struct ResponsError {
+    error: String,
+}
+
 struct AppError(anyhow::Error);
 
 impl IntoResponse for AppError {
     fn into_response(self) -> Response {
         (
             StatusCode::INTERNAL_SERVER_ERROR,
-            format!("Something went wrong: {}", self.0),
+            Json(ResponsError {
+                error: format!("Something went wrong: {}", self.0),
+            }),
         )
             .into_response()
     }
