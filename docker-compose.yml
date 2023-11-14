@@ -1,0 +1,22 @@
+version: "3"
+services:
+  clams:
+    image: clamav/clamav:stable_base
+    restart: unless-stopped
+    volumes:
+      - ./freshclam.conf:/etc/clamav/freshclam.conf
+      - ./clamd.conf:/etc/clamav/clamd.conf
+      - clamav_signature_db:/var/lib/clamav
+    # ports:
+    #   - "3310:3310"
+
+  clamav-api:
+    build:
+      context: ./
+    ports:
+      - "4242:4242"
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
+
+volumes:
+  clamav_signature_db: {}

@@ -1,0 +1,3 @@
+[submodule "clamd-client"]
+	path = clamd-client
+	url = https://github.com/McPatate/clamd-client
